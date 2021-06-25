@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/resources/css/manage-admin.css">
+    <link rel="stylesheet" type="text/css" href="/resources/css/register-admin.css">
     <title>관리자관리</title>
 
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -22,91 +22,98 @@
         <div class="box-submenu">
           <div class="box-submenu-title"><div class="submenu-title-text">관리자 관리</div></div>
           <div class="box-submenu-button"><a href="${context_path}/user/manage-admin">관리자 조회</a></div>
-          <div class="box-submenu-button"><a href="">신규등록</a></div>
+          <div class="box-submenu-button"><a href="${context_path}/user/register-admin">신규등록</a></div>
         </div>
-        <div class="box-listup">
-          <div class="box-search">
-            <div class="box-search-tool">
-              <select name="search-option">
-                <option value="all" selected>전체</option>
-                <option value="id">아이디</option>
-                <option value="name">이름</option>
-                <option value="division">소속</option>
-              </select>
-              <input class="input-search">
-              <button class="button-search">검색</button>
+        <div class="box-form">
+          <form action="${context_path}/user/register" method="post" onsubmit="return submitCheck()">
+            <table>
+              <colgroup>
+                <col width="20%"/>
+                <col width="80%"/>
+              </colgroup>
+              <thead>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>아이디</td>
+                  <td><label><input type="text" name="userID" id="id"></label></td>
+                </tr>
+                <tr>
+                  <td>성명</td>
+                  <td><label><input type="text" name="userName" id="name"></label></td>
+                </tr>
+                <tr>
+                  <td>소속</td>
+                  <td><label><input type="text" name="userDivision" id="division"></label></td>
+                </tr>
+                <tr>
+                  <td>연락처</td>
+                  <td><label><input type="text" name="userPhone" id="phone"></label></td>
+                </tr>
+                <tr>
+                  <td>비밀번호</td>
+                  <td><label><input type="password" name="userPW" id="pw1"></label></td>
+                </tr>
+                <tr>
+                  <td>비밀번호(확인)</td>
+                  <td><label><input type="password" id="pw2"></label></td>
+                </tr>
+                <tr>
+                  <td>관리자</td>
+                  <td>
+                    <input type="checkbox" name="userSuper"/>마스터관리자
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <input type="hidden" name="prevUrl" value="${prevUrl}">
+            <div class="box-row">
+              <div class="box-tool">
+                <div><input type="submit"></div>
+                <div><a href="${prevUrl}">취소</a></div>
+              </div>
             </div>
-          </div>
-          <div class="box-list">
-            <div class="box-table">
-              <table class="table-list">
-
-                <colgroup>
-                  <col width="10%"/>
-                  <col width="20%"/>
-                  <col width="30%"/>
-                  <col width="25%/">
-                  <col width="15%"/>
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>번호</th>
-                    <th>아이디</th>
-                    <th>이름</th>
-                    <th>소속</th>
-                    <th>등록일</th>
-                  </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${userList}" var="user">
-                  <tr>
-                    <td>${user.userNo}</td>
-                    <td>${user.userID}</td>
-                    <td>${user.userName}</td>
-                    <td>${user.userDivision}</td>
-                    <td>${user.userRegisterDate}</td>
-                  </tr>
-                </c:forEach>
-                </tbody>
-              </table>
-            </div>
-            <div class="box-control">
-              <ul>
-                <c:if test="${pageMaker.prev}">
-                  <li>
-                    <a href='<c:url value="${context_path}/user/manage-admin?page=${pageMaker.startPage-1}&searchType=${pageMaker.cri.searchType}&keyWorld=${pageMaker.cri.keyWorld}"/>'><<</a>
-                  </li>
-                </c:if>
-                <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="pageNum">
-                  <li>
-                    <a href='<c:url value="${context_path}/user/manage-admin?page=${pageNum}&searchType=${pageMaker.cri.searchType}&keyWorld=${pageMaker.cri.keyWorld}"/>'>${pageNum}</a>
-                  </li>
-                </c:forEach>
-                <c:if test="${pageMaker.next && pageMaker.endPage > 0}">
-                  <li>
-                    <a href='<c:url value="${context_path}/user/manage-admin?page=${pageMaker.endPage+1}&searchType=${pageMaker.cri.searchType}&keyWorld=${pageMaker.cri.keyWorld}"/>'>>></a>
-                  </li>
-                </c:if>
-              </ul>
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
 
     <script  type="text/javascript">
-      $(".button-search").click(()=>{
-        var url = "${context_path}/user/manage-admin"
-        url = url + "?searchType=" + $("select[name=search-option]").val()
-        url = url + "&keyWorld=" + $(".input-search").val()
-        location.href = url;
-      })
+      submitCheck = ()=>{
 
-      $(".input-search").on("keydown", (key)=>{
-        if(key.keyCode==13) {
-          $(".button-search").click()
+        if($("#id").val() == ""){
+          alert("아이디를 입력하세요.")
+          return false
         }
-      });
+        else if($("#name").val() == ""){
+          alert("이름을 입력하세요.")
+          return false
+        }
+        else if($("#division").val() == ""){
+          alert("소속을 입력하세요.")
+          return false
+        }
+        else if($("#division").val() == ""){
+          alert("소속을 입력하세요.")
+          return false
+        }
+        else if($("#pw1").val() == ""){
+          alert("비밀번호를 입력하세요.")
+          return false
+        }
+        else if($("#pw2").val() == ""){
+          alert("비밀번호(확인)을 입력하세요.")
+          return false
+        }
+
+        if($("#pw1").val() != $("#pw2").val())
+        {
+          alert("입력된 비밀번호가 다릅니다.")
+          return false
+        }
+
+        return true
+      }
     </script>
   </body>
 </html>

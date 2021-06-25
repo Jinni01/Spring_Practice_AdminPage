@@ -1,7 +1,7 @@
 package com.midasin.spr.user.service;
 
 import com.midasin.spr.user.User;
-import com.midasin.spr.user.pagination.Criteria;
+import com.midasin.spr.pagination.Criteria;
 
 import java.util.List;
 

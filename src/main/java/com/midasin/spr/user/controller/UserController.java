@@ -1,9 +1,10 @@
 package com.midasin.spr.user.controller;
 
 import com.midasin.spr.user.User;
-import com.midasin.spr.user.pagination.Criteria;
-import com.midasin.spr.user.pagination.PageMaker;
+import com.midasin.spr.pagination.Criteria;
+import com.midasin.spr.pagination.PageMaker;
 import com.midasin.spr.user.service.UserServiceImpl;
+import com.midasin.spr.util.PrevUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
     @Autowired
     UserServiceImpl service;
 
@@ -30,6 +33,20 @@ public class UserController {
         session.setAttribute("user", u);
 
         return "redirect:/user/manage-admin";
+    }
+
+    @GetMapping("logout")
+    public String userLogout(HttpSession session){
+        session.invalidate();
+
+        return "redirect:/";
+    }
+
+    @PostMapping("/register")
+    public String userRegister(User user, PrevUrl url, HttpServletRequest request)
+    {
+        service.userRegister(user);
+        return "redirect:" + url.getPrevUrl();
     }
 
     @GetMapping(value = "manage-admin")
@@ -54,14 +71,14 @@ public class UserController {
     }
 
     @GetMapping(value = "register-admin")
-    public String registerAdmin(HttpSession session){
+    public String registerAdmin(Model model, HttpServletRequest request, HttpSession session){
         if(session != null) {
             User user = (User) session.getAttribute("user");
             if(!user.getUserSuper()){
                 return "redirect:/user/manage-admin";
             }
         }
-
+        model.addAttribute("prevUrl", request.getHeader("Referer"));
         return "register-admin";
     }
 

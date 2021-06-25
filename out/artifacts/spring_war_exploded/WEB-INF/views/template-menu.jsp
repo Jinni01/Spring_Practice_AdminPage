@@ -20,6 +20,9 @@
         <div class="box-inner">
           <a href="${context_path}/user/manage-recruit" class="button-menu">채용관리</a>
         </div>
+        <div class="box-inner">
+          <a href="${context_path}/user/logout" class="button-menu">로그아웃</a>
+        </div>
       </div>
     </div>
   </body>

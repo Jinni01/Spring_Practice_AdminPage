@@ -27,14 +27,12 @@ body{
 .box-view>.box-submenu{
     display:table;
     border-collapse:collapse;
-    width:200px;
     height:90px;
 }
 
 .box-view>.box-submenu>.box-submenu-title{
     display:table-row;
-    height:30px;
-
+    height:40px;
     background-color: #EEEFF1;
     border:1px solid black;
 }
@@ -43,7 +41,8 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    height:40px;
+    height:100%;
+    width:180px;
     color:black;
 }
 
@@ -58,7 +57,7 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    height:40px;
+    height:100%;
 
     text-decoration-line : none;
     color:black;
@@ -80,7 +79,7 @@ body{
 
 .box-view>.box-listup>.box-search>.box-search-tool{
     display:flex;
-    width:650px;
+    width:700px;
     justify-content:flex-end;
 }
 
@@ -147,6 +146,10 @@ body{
     border-width:2px 0px;
     border-color:black;
     border-style:solid;
+}
+
+.box-view>.box-listup>.box-list>.box-table>.table-list>tbody>tr:hover{
+    background-color:#1bbc9b33;
 }
 
 .box-view>.box-listup>.box-list>.box-control{

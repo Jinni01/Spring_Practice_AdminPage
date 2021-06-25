@@ -22,7 +22,7 @@
         <div class="box-submenu">
           <div class="box-submenu-title"><div class="submenu-title-text">관리자 관리</div></div>
           <div class="box-submenu-button"><a href="${context_path}/user/manage-admin">관리자 조회</a></div>
-          <div class="box-submenu-button"><a href="">신규등록</a></div>
+          <div class="box-submenu-button"><a href="${context_path}/user/register-admin">신규등록</a></div>
         </div>
         <div class="box-listup">
           <div class="box-search">

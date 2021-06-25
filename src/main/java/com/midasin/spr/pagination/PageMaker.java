@@ -1,4 +1,4 @@
-package com.midasin.spr.user.pagination;
+package com.midasin.spr.pagination;
 
 public class PageMaker {
 

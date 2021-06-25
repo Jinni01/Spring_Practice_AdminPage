@@ -1,7 +1,7 @@
 package com.midasin.spr.user.dao;
 
 import com.midasin.spr.user.User;
-import com.midasin.spr.user.pagination.Criteria;
+import com.midasin.spr.pagination.Criteria;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;

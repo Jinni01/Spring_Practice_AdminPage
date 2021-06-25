@@ -2,7 +2,7 @@ package com.midasin.spr.user.service;
 
 import com.midasin.spr.user.User;
 import com.midasin.spr.user.dao.UserDAOImpl;
-import com.midasin.spr.user.pagination.Criteria;
+import com.midasin.spr.pagination.Criteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
