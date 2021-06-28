@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,7 +24,7 @@ public class UserController {
     @Autowired
     UserServiceImpl service;
 
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     public String userlogin(User user, HttpSession session){
         User u = service.userSearch(user);
 
@@ -35,19 +36,32 @@ public class UserController {
         return "redirect:/user/manage-admin";
     }
 
-    @GetMapping("logout")
+    @GetMapping(value = "logout")
     public String userLogout(HttpSession session){
         session.invalidate();
 
         return "redirect:/";
     }
 
-    @PostMapping("/register")
-    public String userRegister(User user, PrevUrl url, HttpServletRequest request)
-    {
+    @PostMapping(value = "/register")
+    public String userRegister(User user, PrevUrl prevUrl, HttpServletRequest request) {
         service.userRegister(user);
-        return "redirect:" + url.getPrevUrl();
+        return "redirect:" + prevUrl.getPrevUrl();
     }
+
+    @PostMapping(value="/modify")
+    public String userModify(User user, HttpServletRequest request)
+    {
+        service.userModify(user);
+        return "redirect:/user/info?userNo=" + Integer.toString(user.getUserNo());
+    }
+
+    @GetMapping(value = "/delete")
+    public String usetDelete(User user_no) {
+        service.userRemoveByNo(user_no.getUserNo());
+        return "redirect:/user/manage-admin";
+    }
+
 
     @GetMapping(value = "manage-admin")
     public String manageAdmin(Criteria criteria, Model model, HttpSession session){
@@ -93,6 +107,34 @@ public class UserController {
         }
 
         return "manage-recruit";
+    }
+
+    @GetMapping(value="info")
+    public String userInfo(User user_no, Model model, HttpServletRequest request, HttpSession session) {
+        if(session != null) {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return "redirect:/";
+            }
+        }
+        User u = service.userSearchByNo(user_no.getUserNo());
+        model.addAttribute("user", u);
+
+        return "info-admin";
+    }
+
+    @GetMapping(value = "modify-admin")
+    public String userModifyPage(User user_no, PrevUrl prevUrl, Model model, HttpServletRequest request, HttpSession session){
+        if(session != null) {
+            User user = (User) session.getAttribute("user");
+            if(user == null){
+                return "redirect:/";
+            }
+        }
+        User u = service.userSearchByNo(user_no.getUserNo());
+        model.addAttribute("user", u);
+
+        return "modify-admin";
     }
 
     //test code

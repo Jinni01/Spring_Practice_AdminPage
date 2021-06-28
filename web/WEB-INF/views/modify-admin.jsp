@@ -25,7 +25,7 @@
           <div class="box-submenu-button"><a href="${context_path}/user/register-admin">신규등록</a></div>
         </div>
         <div class="box-form">
-          <form action="${context_path}/user/register" method="post" onsubmit="return submitCheck()">
+          <form action="${context_path}/user/modify" method="post" onsubmit="return submitCheck()">
             <table>
               <colgroup>
                 <col width="20%"/>
@@ -36,23 +36,23 @@
               <tbody>
                 <tr>
                   <td>아이디</td>
-                  <td><label><input type="text" name="userID" id="id"></label></td>
+                  <td><label><input type="text" name="userID" id="id" value="${user.userID}"></label></td>
                 </tr>
                 <tr>
                   <td>성명</td>
-                  <td><label><input type="text" name="userName" id="name"></label></td>
+                  <td><label><input type="text" name="userName" id="name" value="${user.userName}"></label></td>
                 </tr>
                 <tr>
                   <td>소속</td>
-                  <td><label><input type="text" name="userDivision" id="division"></label></td>
+                  <td><label><input type="text" name="userDivision" id="division" value="${user.userDivision}"></label></td>
                 </tr>
                 <tr>
                   <td>연락처</td>
-                  <td><label><input type="text" name="userPhone" id="phone"></label></td>
+                  <td><label><input type="text" name="userPhone" id="phone" value="${user.userPhone}"></label></td>
                 </tr>
                 <tr>
                   <td>비밀번호</td>
-                  <td><label><input type="password" name="userPW" id="pw1"></label></td>
+                  <td><label><input type="password" name="userPW" id="pw1" value="${user.userPW}"></label></td>
                 </tr>
                 <tr>
                   <td>비밀번호(확인)</td>
@@ -61,16 +61,24 @@
                 <tr>
                   <td>관리자</td>
                   <td>
-                    <input type="checkbox" name="userSuper"/>마스터관리자
+                    <c:choose>
+                      <c:when test="${user.userSuper==true}">
+                        <input type="checkbox" name="userSuper" checked/>
+                      </c:when>
+                      <c:otherwise>
+                        <input type="checkbox" name="userSuper"/>
+                      </c:otherwise>
+                    </c:choose>
+                    마스터관리자
                   </td>
                 </tr>
               </tbody>
             </table>
-            <input type="hidden" name="prevUrl" value="${prevUrl}">
+            <input type="hidden" name="userNo" value="${user.userNo}">
             <div class="box-row">
               <div class="box-tool">
-                <div><input type="submit" value="등록"></div>
-                <div><a href="${prevUrl}">취소</a></div>
+                <div><input type="submit" value="완료"></div>
+                <div><a href="${context_path}/user/info?userNo=${user.userNo}">취소</a></div>
               </div>
             </div>
           </form>

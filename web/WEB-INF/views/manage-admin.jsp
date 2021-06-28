@@ -59,8 +59,8 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${userList}" var="user">
-                  <tr>
-                    <td>${user.userNo}</td>
+                  <tr class="tablerow-user">
+                    <td class="tablecol-no"><a href='<c:url value="${context_path}/user/info?userNo=${user.userNo}"/>'>${user.userNo}</a></td>
                     <td>${user.userID}</td>
                     <td>${user.userName}</td>
                     <td>${user.userDivision}</td>

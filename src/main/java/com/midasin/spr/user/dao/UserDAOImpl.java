@@ -38,7 +38,18 @@ public class UserDAOImpl implements IUserDAO{
     @Override
     public int userInsert(User user) {
         final String q = "INSERT INTO user (userID, userPW, userName, userPhone, userDivision, userRegisterDate, userSuper) values(?,?,?,?,?,curdate(),?)";
-        return ExecuteUpdate(user, q);
+        return template.update(q, new PreparedStatementSetter(){
+
+            @Override
+            public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setString(1, user.getUserID());
+                preparedStatement.setString(2, user.getUserPW());
+                preparedStatement.setString(3, user.getUserName());
+                preparedStatement.setString(4, user.getUserPhone());
+                preparedStatement.setString(5, user.getUserDivision());
+                preparedStatement.setBoolean(6, user.getUserSuper());
+            }
+        });
     }
 
     @Override
@@ -67,15 +78,66 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
+    public User userSelectByNo(int no) {
+        final String q = "SELECT * FROM user WHERE userNo = ?";
+
+        List<User> users = null;
+        users = template.query(q, new Object[]{no},  new RowMapper<User>() {
+            @Override
+            public User mapRow(ResultSet resultSet, int i) throws SQLException {
+                User user = new User();
+                user.setUserNo(resultSet.getInt("userNo"));
+                user.setUserID(resultSet.getString("userID"));
+                user.setUserPW(resultSet.getString("userPW"));
+                user.setUserName(resultSet.getString("userName"));
+                user.setUserPhone(resultSet.getString("userPhone"));
+                user.setUserDivision(resultSet.getString("userDivision"));
+                user.setUserRegisterDate(resultSet.getString("userRegisterDate"));
+                user.setUserSuper(resultSet.getBoolean("userSuper"));
+                return user;
+            }
+        });
+        if(users.isEmpty()) return null;
+
+        return users.get(0);
+    }
+
+    @Override
     public int userUpdate(User user) {
-        final String q = "Update user SET userID = ?, userPW = ?, userName = ?, userPhone = ?, userSuper = ? WHERE userID = ?";
-        return ExecuteUpdate(user, q);
+        final String q = "Update user SET userID = ?, userPW = ?, userName = ?, userPhone = ?, userDivision = ?, userSuper = ? WHERE userNo = ?";
+        return template.update(q, new PreparedStatementSetter(){
+
+            @Override
+            public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setString(1, user.getUserID());
+                preparedStatement.setString(2, user.getUserPW());
+                preparedStatement.setString(3, user.getUserName());
+                preparedStatement.setString(4, user.getUserPhone());
+                preparedStatement.setString(5, user.getUserDivision());
+                preparedStatement.setBoolean(6, user.getUserSuper());
+                preparedStatement.setInt(7, user.getUserNo());
+            }
+        });
     }
 
     @Override
     public int userDelete(User user) {
         final String q = "DELETE user WHERE userID = ? AND userPW = ?";
-        return ExecuteUpdate(user, q);
+        //고쳐야함
+        //return ExecuteUpdate(user, q);
+        return 0;
+    }
+
+    @Override
+    public int userDeleteByNo(int no) {
+        final String q = "DELETE FROM user WHERE userNo = ?";
+        return template.update(q, new PreparedStatementSetter(){
+
+            @Override
+            public void setValues(PreparedStatement preparedStatement) throws SQLException {
+                preparedStatement.setInt(1, no);
+            }
+        });
     }
 
     @Override
@@ -101,21 +163,6 @@ public class UserDAOImpl implements IUserDAO{
                 user.setUserRegisterDate(resultSet.getString("userRegisterDate"));
                 user.setUserSuper(resultSet.getBoolean("userSuper"));
                 return user;
-            }
-        });
-    }
-
-    private int ExecuteUpdate(User user, String q) {
-        return template.update(q, new PreparedStatementSetter(){
-
-            @Override
-            public void setValues(PreparedStatement preparedStatement) throws SQLException {
-                preparedStatement.setString(1, user.getUserID());
-                preparedStatement.setString(2, user.getUserPW());
-                preparedStatement.setString(3, user.getUserName());
-                preparedStatement.setString(4, user.getUserPhone());
-                preparedStatement.setString(5, user.getUserDivision());
-                preparedStatement.setBoolean(6, user.getUserSuper());
             }
         });
     }

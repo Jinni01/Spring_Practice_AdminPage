@@ -1,0 +1,127 @@
+body{
+    min-width: 1000px;
+}
+
+.box-main{
+    display:flex;
+    flex-direction:column;
+}
+
+.box-title{
+    display:flex;
+    justify-content:center;
+    padding:10px;
+    background:white;
+    border-width :3px 0px 3px 0px;
+    border-style:solid;
+    border-color: #1BBC9B;
+    margin-bottom:5px;
+}
+
+.box-view{
+    display:flex;
+    justify-content:space-between;
+    width:100%
+}
+
+.box-view>.box-submenu{
+    display:table;
+    border-collapse:collapse;
+    height:90px;
+}
+
+.box-view>.box-submenu>.box-submenu-title{
+    display:table-row;
+    height:40px;
+    background-color: #EEEFF1;
+    border:1px solid black;
+}
+
+.box-view>.box-submenu>.box-submenu-title>.submenu-title-text{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+    width:180px;
+    color:black;
+}
+
+.box-view>.box-submenu>.box-submenu-button{
+    display:table-row;
+    height:40px;
+
+    border:1px solid black;
+}
+
+.box-view>.box-submenu>.box-submenu-button>a{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100%;
+
+    text-decoration-line : none;
+    color:black;
+}
+
+
+.box-view>.box-form{
+    display:flex;
+    justify-content:center;
+    width:100%;
+    height:800px;
+    margin-top:10px;
+}
+
+.box-view>.box-form>.box-table{
+    width:90%;
+    height:800px;
+}
+
+.box-view>.box-form>.box-table>table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.box-view>.box-form>.box-table>table>tbody>tr>td{
+    border:1px solid black;
+    padding:6px;
+}
+
+.box-view>.box-form>.box-table>.box-row{
+    width:100%;
+    height:100px;
+    display:flex;
+    justify-content:flex-end;
+}
+
+.box-view>.box-form>.box-table>.box-row>.box-tool{
+    width:200px;
+    height:40px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.box-view>.box-form>.box-table>.box-row>.box-tool>div{
+    width:96px;
+    height:100%;
+
+    margin-top:10px;
+}
+
+.box-view>.box-form>.box-table>.box-row>.box-tool>div>*{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+
+    width:100%;
+    height:100%;
+
+    font-size: 14px;
+
+    background-color: #1BBC9B;
+    color: white;
+    border: none;
+
+    text-decoration-line : none;
+    cursor:pointer;
+}

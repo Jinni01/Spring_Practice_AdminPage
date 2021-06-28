@@ -36,7 +36,12 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public User userModify(User user) {
+    public User userSearchByNo(int no) {
+        return userDAO.userSelectByNo(no);
+    }
+
+    @Override
+    public void userModify(User user) {
         int result = userDAO.userUpdate(user);
 
         if(result != 0)
@@ -44,7 +49,6 @@ public class UserServiceImpl implements IUserService{
         else
             System.out.println("modify:fail");
 
-        return user;
     }
 
     @Override
@@ -57,6 +61,11 @@ public class UserServiceImpl implements IUserService{
             System.out.println("delete:fail");
 
         return result;
+    }
+
+    @Override
+    public int userRemoveByNo(int no) {
+        return userDAO.userDeleteByNo(no);
     }
 
     @Override
