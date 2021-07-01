@@ -3,9 +3,11 @@ package com.midasin.spr.user.service;
 import com.midasin.spr.user.User;
 import com.midasin.spr.user.dao.UserDAOImpl;
 import com.midasin.spr.pagination.Criteria;
+import com.midasin.spr.user.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
@@ -13,9 +15,14 @@ public class UserServiceImpl implements IUserService{
     @Autowired
     UserDAOImpl userDAO;
 
+    // @Resource(name="userMapper")
+    @Autowired
+    UserMapper mapper;
+
     @Override
     public void userRegister(User user) {
-        int result = userDAO.userInsert(user);
+        //int result = userDAO.userInsert(user);
+        int result = mapper.insertUser(user);
 
         if(result != 0)
             System.out.println("register:success");
@@ -25,7 +32,8 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public User userSearch(User user) {
-        User u = userDAO.userSelect(user);
+        //User u = userDAO.userSelect(user);
+        User u = mapper.selectUser(user);
 
         if(u != null)
             System.out.println("search:success");
@@ -37,12 +45,21 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public User userSearchByNo(int no) {
-        return userDAO.userSelectByNo(no);
+        //User u = userDAO.userSelectByNo(no);
+        User u = mapper.selectUserByNo(no);
+
+        if(u != null)
+            System.out.println("search:success");
+        else
+            System.out.println("search:fail");
+
+        return u;
     }
 
     @Override
     public void userModify(User user) {
-        int result = userDAO.userUpdate(user);
+        //int result = userDAO.userUpdate(user);
+        int result = mapper.updateUser(user);
 
         if(result != 0)
             System.out.println("modify:success");
@@ -65,7 +82,15 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public int userRemoveByNo(int no) {
-        return userDAO.userDeleteByNo(no);
+        //int result = userDAO.userDeleteByNo(no);
+        int result = mapper.deleteUserByNo(no);
+
+        if(result != 0)
+            System.out.println("delete:success");
+        else
+            System.out.println("delete:fail");
+
+        return result;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.midasin.spr.user;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public class User {
     private int userNo;
     private String userID;
@@ -11,6 +9,8 @@ public class User {
     private String userDivision;
     private String userRegisterDate;
     private boolean userSuper;
+
+    public User(){}
 
     public int getUserNo() {
         return userNo;

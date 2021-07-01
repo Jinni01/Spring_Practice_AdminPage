@@ -123,8 +123,6 @@ public class UserDAOImpl implements IUserDAO{
     @Override
     public int userDelete(User user) {
         final String q = "DELETE user WHERE userID = ? AND userPW = ?";
-        //고쳐야함
-        //return ExecuteUpdate(user, q);
         return 0;
     }
 

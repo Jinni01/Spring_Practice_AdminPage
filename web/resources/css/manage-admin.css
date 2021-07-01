@@ -152,6 +152,10 @@ body{
     background-color:#1bbc9b33;
 }
 
+.box-view>.box-listup>.box-list>.box-table>.table-list>tbody>tr>td>a{
+    text-decoration-line:none;
+}
+
 .box-view>.box-listup>.box-list>.box-control{
     display:flex;
     justify-content:center;
