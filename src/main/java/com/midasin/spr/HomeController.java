@@ -1,6 +1,6 @@
 package com.midasin.spr;
 
-import com.midasin.spr.user.User;
+import com.midasin.spr.user.UserVO;
 import com.midasin.spr.user.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +23,7 @@ public class HomeController {
     @GetMapping(value = "/")
     public String login(HttpSession session) {
         if(session != null) {
-            User user = (User) session.getAttribute("user");
+            UserVO user = (UserVO) session.getAttribute("user");
             if(user != null){
                 return "redirect:/user/manage-admin";
             }

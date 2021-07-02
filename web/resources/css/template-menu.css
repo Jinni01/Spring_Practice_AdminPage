@@ -47,3 +47,12 @@
 
     -webkit-appearance: none;
 }
+
+
+.box-inner>.grade-master{
+    background-color:black;
+}
+
+.box-inner>.grade-normal{
+    background-color:gray;
+}

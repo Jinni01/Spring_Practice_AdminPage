@@ -1,6 +1,6 @@
 package com.midasin.spr.user.dao;
 
-import com.midasin.spr.user.User;
+import com.midasin.spr.user.UserVO;
 import com.midasin.spr.pagination.Criteria;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -36,7 +36,7 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
-    public int userInsert(User user) {
+    public int userInsert(UserVO user) {
         final String q = "INSERT INTO user (userID, userPW, userName, userPhone, userDivision, userRegisterDate, userSuper) values(?,?,?,?,?,curdate(),?)";
         return template.update(q, new PreparedStatementSetter(){
 
@@ -53,14 +53,14 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
-    public User userSelect(User user) {
+    public UserVO userSelect(UserVO user) {
         final String q = "SELECT * FROM user WHERE userID = ? AND userPW = ?";
 
-        List<User> users = null;
-        users = template.query(q, new Object[]{user.getUserID(), user.getUserPW()},  new RowMapper<User>() {
+        List<UserVO> users = null;
+        users = template.query(q, new Object[]{user.getUserID(), user.getUserPW()},  new RowMapper<UserVO>() {
             @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                User user = new User();
+            public UserVO mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserVO user = new UserVO();
                 user.setUserNo(resultSet.getInt("userNo"));
                 user.setUserID(resultSet.getString("userID"));
                 user.setUserPW(resultSet.getString("userPW"));
@@ -78,14 +78,14 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
-    public User userSelectByNo(int no) {
+    public UserVO userSelectByNo(int no) {
         final String q = "SELECT * FROM user WHERE userNo = ?";
 
-        List<User> users = null;
-        users = template.query(q, new Object[]{no},  new RowMapper<User>() {
+        List<UserVO> users = null;
+        users = template.query(q, new Object[]{no},  new RowMapper<UserVO>() {
             @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                User user = new User();
+            public UserVO mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserVO user = new UserVO();
                 user.setUserNo(resultSet.getInt("userNo"));
                 user.setUserID(resultSet.getString("userID"));
                 user.setUserPW(resultSet.getString("userPW"));
@@ -103,7 +103,7 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
-    public int userUpdate(User user) {
+    public int userUpdate(UserVO user) {
         final String q = "Update user SET userID = ?, userPW = ?, userName = ?, userPhone = ?, userDivision = ?, userSuper = ? WHERE userNo = ?";
         return template.update(q, new PreparedStatementSetter(){
 
@@ -121,7 +121,7 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
-    public int userDelete(User user) {
+    public int userDelete(UserVO user) {
         final String q = "DELETE user WHERE userID = ? AND userPW = ?";
         return 0;
     }
@@ -145,13 +145,13 @@ public class UserDAOImpl implements IUserDAO{
     }
 
     @Override
-    public List<User> userListup(Criteria criteria) {
+    public List<UserVO> userListup(Criteria criteria) {
         final String q = "SELECT * FROM user WHERE" + getSearchOptionString(criteria) + " ORDER BY userNo desc LIMIT ?, ?";
 
-        return template.query(q, new Object[]{criteria.getPageStart(), criteria.getPerPageNum()} , new RowMapper<User>() {
+        return template.query(q, new Object[]{criteria.getPageStart(), criteria.getPerPageNum()} , new RowMapper<UserVO>() {
             @Override
-            public User mapRow(ResultSet resultSet, int i) throws SQLException {
-                User user = new User();
+            public UserVO mapRow(ResultSet resultSet, int i) throws SQLException {
+                UserVO user = new UserVO();
                 user.setUserNo(resultSet.getInt("userNo"));
                 user.setUserID(resultSet.getString("userID"));
                 user.setUserPW(resultSet.getString("userPW"));

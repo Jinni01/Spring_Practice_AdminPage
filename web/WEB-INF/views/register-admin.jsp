@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
@@ -22,7 +23,9 @@
         <div class="box-submenu">
           <div class="box-submenu-title"><div class="submenu-title-text">관리자 관리</div></div>
           <div class="box-submenu-button"><a href="${context_path}/user/manage-admin">관리자 조회</a></div>
-          <div class="box-submenu-button"><a href="${context_path}/user/register-admin">신규등록</a></div>
+          <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <div class="box-submenu-button"><a href="${context_path}/user/register-admin">신규등록</a></div>
+          </sec:authorize>
         </div>
         <div class="box-form">
           <form action="${context_path}/user/register" method="post" onsubmit="return submitCheck()">

@@ -1,13 +1,13 @@
 package com.midasin.spr.user.service;
 
-import com.midasin.spr.user.User;
+import com.midasin.spr.user.UserVO;
 import com.midasin.spr.user.dao.UserDAOImpl;
 import com.midasin.spr.pagination.Criteria;
 import com.midasin.spr.user.dao.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service
@@ -19,9 +19,13 @@ public class UserServiceImpl implements IUserService{
     @Autowired
     UserMapper mapper;
 
+    @Autowired
+    private BCryptPasswordEncoder pwEncoder;
+
     @Override
-    public void userRegister(User user) {
+    public void userRegister(UserVO user) {
         //int result = userDAO.userInsert(user);
+        user.setUserPW(pwEncoder.encode(user.getUserPW()));
         int result = mapper.insertUser(user);
 
         if(result != 0)
@@ -31,9 +35,9 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public User userSearch(User user) {
+    public UserVO userSearch(UserVO user) {
         //User u = userDAO.userSelect(user);
-        User u = mapper.selectUser(user);
+        UserVO u = mapper.selectUser(user);
 
         if(u != null)
             System.out.println("search:success");
@@ -44,9 +48,9 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public User userSearchByNo(int no) {
+    public UserVO userSearchByNo(int no) {
         //User u = userDAO.userSelectByNo(no);
-        User u = mapper.selectUserByNo(no);
+        UserVO u = mapper.selectUserByNo(no);
 
         if(u != null)
             System.out.println("search:success");
@@ -57,8 +61,9 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public void userModify(User user) {
+    public void userModify(UserVO user) {
         //int result = userDAO.userUpdate(user);
+        user.setUserPW(pwEncoder.encode(user.getUserPW()));
         int result = mapper.updateUser(user);
 
         if(result != 0)
@@ -69,7 +74,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public int userRemove(User user) {
+    public int userRemove(UserVO user) {
         int result = userDAO.userDelete(user);
 
         if(result != 0)
@@ -99,7 +104,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public List<User> userListup(Criteria criteria) {
+    public List<UserVO> userListup(Criteria criteria) {
         return userDAO.userListup(criteria);
     }
 }

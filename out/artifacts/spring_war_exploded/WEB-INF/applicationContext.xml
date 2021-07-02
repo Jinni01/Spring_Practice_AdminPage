@@ -30,4 +30,6 @@
         <property name="basePackage" value="com.midasin.spr" />
         <property name="annotationClass" value="com.midasin.spr.user.dao.MyMapper" />
     </bean>
+
+    <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 </beans>

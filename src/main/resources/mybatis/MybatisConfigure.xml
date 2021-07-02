@@ -4,7 +4,7 @@
 
 <configuration>
     <typeAliases>
-        <typeAlias alias="UserVO" type="com.midasin.spr.user.User" />
+        <typeAlias alias="UserVO" type="com.midasin.spr.user.UserVO" />
         <typeAlias alias="CriteriaVO" type="com.midasin.spr.pagination.Criteria" />
     </typeAliases>
 </configuration>

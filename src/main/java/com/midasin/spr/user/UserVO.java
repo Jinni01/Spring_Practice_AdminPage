@@ -1,6 +1,6 @@
 package com.midasin.spr.user;
 
-public class User {
+public class UserVO {
     private int userNo;
     private String userID;
     private String userPW;
@@ -10,7 +10,7 @@ public class User {
     private String userRegisterDate;
     private boolean userSuper;
 
-    public User(){}
+    public UserVO(){}
 
     public int getUserNo() {
         return userNo;

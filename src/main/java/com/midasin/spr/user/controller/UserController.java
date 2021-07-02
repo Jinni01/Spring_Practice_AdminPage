@@ -1,6 +1,6 @@
 package com.midasin.spr.user.controller;
 
-import com.midasin.spr.user.User;
+import com.midasin.spr.user.UserVO;
 import com.midasin.spr.pagination.Criteria;
 import com.midasin.spr.pagination.PageMaker;
 import com.midasin.spr.user.service.UserServiceImpl;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -25,39 +24,39 @@ public class UserController {
     UserServiceImpl service;
 
     @PostMapping(value = "/login")
-    public String userlogin(User user, HttpSession session){
-        User u = service.userSearch(user);
+    public String userlogin(UserVO user, HttpSession session){
+        UserVO u = service.userSearch(user);
 
         if(u == null)
             return "redirect:/";
 
-        session.setAttribute("user", u);
+        //session.setAttribute("user", u);
 
         return "redirect:/user/manage-admin";
     }
 
     @GetMapping(value = "logout")
     public String userLogout(HttpSession session){
-        session.invalidate();
+        //session.invalidate();
 
         return "redirect:/";
     }
 
     @PostMapping(value = "/register")
-    public String userRegister(User user, PrevUrl prevUrl, HttpServletRequest request) {
+    public String userRegister(UserVO user, PrevUrl prevUrl, HttpServletRequest request) {
         service.userRegister(user);
         return "redirect:" + prevUrl.getPrevUrl();
     }
 
     @PostMapping(value="/modify")
-    public String userModify(User user, HttpServletRequest request)
+    public String userModify(UserVO user, HttpServletRequest request)
     {
         service.userModify(user);
         return "redirect:/user/info?userNo=" + Integer.toString(user.getUserNo());
     }
 
     @GetMapping(value = "/delete")
-    public String usetDelete(User user_no) {
+    public String usetDelete(UserVO user_no) {
         service.userRemoveByNo(user_no.getUserNo());
         return "redirect:/user/manage-admin";
     }
@@ -65,19 +64,17 @@ public class UserController {
 
     @GetMapping(value = "manage-admin")
     public String manageAdmin(Criteria criteria, Model model, HttpSession session){
-
-        if(session != null) {
+        /*if(session != null) {
             User user = (User) session.getAttribute("user");
             if(user == null){
                 return "redirect:/";
             }
-        }
-
+        }*/
         PageMaker pageMaker = new PageMaker();
         pageMaker.setCri(criteria);
         pageMaker.setTotalCount(service.userCount(criteria));
 
-        List<User> userList = service.userListup(criteria);
+        List<UserVO> userList = service.userListup(criteria);
         model.addAttribute("userList", userList);
         model.addAttribute("pageMaker", pageMaker);
 
@@ -86,52 +83,50 @@ public class UserController {
 
     @GetMapping(value = "register-admin")
     public String registerAdmin(Model model, HttpServletRequest request, HttpSession session){
-        if(session != null) {
+       /* if(session != null) {
             User user = (User) session.getAttribute("user");
             if(!user.getUserSuper()){
                 return "redirect:/user/manage-admin";
             }
-        }
+        }*/
         model.addAttribute("prevUrl", request.getHeader("Referer"));
         return "register-admin";
     }
 
     @GetMapping(value = "manage-recruit")
     public String manageRecruit(HttpSession session){
-
-        if(session != null) {
+        /*if(session != null) {
             User user = (User) session.getAttribute("user");
             if(user == null){
                 return "redirect:/";
             }
-        }
-
+        }*/
         return "manage-recruit";
     }
 
     @GetMapping(value="info")
-    public String userInfo(User user_no, Model model, HttpServletRequest request, HttpSession session) {
-        if(session != null) {
+    public String userInfo(UserVO user_no, Model model, HttpServletRequest request, HttpSession session) {
+        /*if(session != null) {
             User user = (User) session.getAttribute("user");
             if(user == null){
                 return "redirect:/";
             }
-        }
-        User u = service.userSearchByNo(user_no.getUserNo());
+        }*/
+        UserVO u = service.userSearchByNo(user_no.getUserNo());
         model.addAttribute("user", u);
 
         return "info-admin";
     }
 
     @GetMapping(value = "modify-admin")
-    public String userModifyPage(User user_no, PrevUrl prevUrl, Model model, HttpServletRequest request, HttpSession session){
-        if(session != null) {
+    public String userModifyPage(UserVO user_no, PrevUrl prevUrl, Model model, HttpServletRequest request, HttpSession session){
+        /*if(session != null) {
             User user = (User) session.getAttribute("user");
             if(user == null){
                 return "redirect:/";
             }
-        }
-        User u = service.userSearchByNo(user_no.getUserNo());
+        }*/
+        UserVO u = service.userSearchByNo(user_no.getUserNo());
         model.addAttribute("user", u);
 
         return "modify-admin";
@@ -140,7 +135,7 @@ public class UserController {
     //test code
     @GetMapping("insert-dummy")
     public String insertDummy(){
-        User user = new User();
+        UserVO user = new UserVO();
 
         for(int i=1; i<=100; i++)
         {

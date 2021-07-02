@@ -98,7 +98,7 @@ body{
     width:300px;
     height:40px;
     display:flex;
-    justify-content:space-between;
+    justify-content:flex-end;
 }
 
 .box-view>.box-form>.box-table>.box-row>.box-tool>div{
@@ -106,6 +106,7 @@ body{
     height:100%;
 
     margin-top:10px;
+    margin-left:10px;
 }
 
 .box-view>.box-form>.box-table>.box-row>.box-tool>div>*{
