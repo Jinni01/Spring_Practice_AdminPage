@@ -27,12 +27,12 @@
 
         <sec:authorize access="hasRole('ROLE_ADMIN')">
           <div class="box-inner">
-            <a class="grade-master">마스터 관리자</a>
+            <a class="grade-master">| 마스터 관리자 |</a>
           </div>
         </sec:authorize>
         <sec:authorize access="hasRole('ROLE_USER')">
           <div class="box-inner">
-            <a class="grade-normal">일반 관리자</a>
+            <a class="grade-normal">| 일반 관리자 |</a>
           </div>
         </sec:authorize>
       </div>

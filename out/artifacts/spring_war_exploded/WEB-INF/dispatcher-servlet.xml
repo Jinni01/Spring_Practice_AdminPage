@@ -16,4 +16,10 @@
     </bean>
 
     <mvc:resources mapping="/resources/**" location="/resources/" />
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean id="loggerInterceptor" class="com.midasin.spr.interceptor.LoggerInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
