@@ -66,6 +66,10 @@
                   </c:choose>
                 </td>
               </tr>
+              <tr>
+                <td>이미지</td>
+                <td><a href="/user/info/download-image?userNo=${user.userNo}"><img src="/resources/upload/${user.userImage}"></a></td>
+              </tr>
               </tbody>
             </table>
             <div class="box-row">

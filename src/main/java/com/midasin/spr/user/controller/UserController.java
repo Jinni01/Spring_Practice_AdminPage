@@ -4,6 +4,7 @@ import com.midasin.spr.user.UserVO;
 import com.midasin.spr.pagination.Criteria;
 import com.midasin.spr.pagination.PageMaker;
 import com.midasin.spr.user.service.UserServiceImpl;
+import com.midasin.spr.util.FileUtil;
 import com.midasin.spr.util.PrevUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,14 +12,21 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.*;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    @Autowired
+    FileUtil fileUtil;
 
     @Autowired
     UserServiceImpl service;
@@ -43,20 +51,30 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public String userRegister(UserVO user, PrevUrl prevUrl, HttpServletRequest request) {
+    public String userRegister(MultipartFile uploadfile, UserVO user, PrevUrl prevUrl, HttpServletRequest request) {
+        user.setUserImage(fileUtil.SaveFile(uploadfile, request));
         service.userRegister(user);
         return "redirect:" + prevUrl.getPrevUrl();
     }
 
     @PostMapping(value="/modify")
-    public String userModify(UserVO user, HttpServletRequest request)
+    public String userModify(MultipartFile uploadfile, UserVO user, HttpServletRequest request)
     {
+        //delete exist prev image
+        UserVO u = service.userSearchByNo(user.getUserNo());
+        String prevImageFileName = u.getUserImage();
+        fileUtil.RemoveFile(request, prevImageFileName);
+        //insert new image
+        user.setUserImage(fileUtil.SaveFile(uploadfile, request));
+
         service.userModify(user);
         return "redirect:/user/info?userNo=" + Integer.toString(user.getUserNo());
     }
 
     @GetMapping(value = "/delete")
-    public String usetDelete(UserVO user_no) {
+    public String usetDelete(UserVO user_no, HttpServletRequest request) {
+        UserVO user = service.userSearchByNo(user_no.getUserNo());
+        fileUtil.RemoveFile(request, user.getUserImage());
         service.userRemoveByNo(user_no.getUserNo());
         return "redirect:/user/manage-admin";
     }
@@ -118,6 +136,12 @@ public class UserController {
         return "info-admin";
     }
 
+    @GetMapping(value = "info/download-image")
+    public void userInfoDownloadImage(UserVO user_no, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        UserVO user = service.userSearchByNo(user_no.getUserNo());
+        fileUtil.DownLoadFile(request, response, user.getUserImage());
+    }
+
     @GetMapping(value = "modify-admin")
     public String userModifyPage(UserVO user_no, PrevUrl prevUrl, Model model, HttpServletRequest request, HttpSession session){
         /*if(session != null) {
@@ -145,6 +169,7 @@ public class UserController {
             user.setUserPhone("010-0000-0000");
             user.setUserDivision("기반개발팀");
             user.setUserSuper(true);
+            user.setUserImage("춘식이.png");
 
             service.userRegister(user);
         }

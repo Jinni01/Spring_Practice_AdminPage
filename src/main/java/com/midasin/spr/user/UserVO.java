@@ -8,6 +8,7 @@ public class UserVO {
     private String userPhone;
     private String userDivision;
     private String userRegisterDate;
+    private String userImage;
     private boolean userSuper;
 
     public UserVO(){}
@@ -44,6 +45,10 @@ public class UserVO {
         return userSuper;
     }
 
+    public String getUserImage() {
+        return userImage;
+    }
+
     public void setUserID(String userID) {
         this.userID = userID;
     }
@@ -74,5 +79,9 @@ public class UserVO {
 
     public void setUserRegisterDate(String userRegisterDate) {
         this.userRegisterDate = userRegisterDate;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 }

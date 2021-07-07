@@ -28,7 +28,7 @@
           </sec:authorize>
         </div>
         <div class="box-form">
-          <form action="${context_path}/user/register" method="post" onsubmit="return submitCheck()">
+          <form action="${context_path}/user/register" method="post" onsubmit="return submitCheck()" enctype="multipart/form-data">
             <table>
               <colgroup>
                 <col width="20%"/>
@@ -65,6 +65,12 @@
                   <td>관리자</td>
                   <td>
                     <input type="checkbox" name="userSuper"/>마스터관리자
+                  </td>
+                </tr>
+                <tr>
+                  <td>이미지</td>
+                  <td>
+                    <input type="file" name="uploadfile" placeholder="이미지 선택" accept="image/*"/>
                   </td>
                 </tr>
               </tbody>
