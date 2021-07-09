@@ -23,11 +23,10 @@ public class UserServiceImpl implements IUserService{
     private BCryptPasswordEncoder pwEncoder;
 
     @Override
-    public void userRegister(UserVO user) {
+    public void userRegister(UserVO user) throws Throwable{
         //int result = userDAO.userInsert(user);
         user.setUserPW(pwEncoder.encode(user.getUserPW()));
         int result = mapper.insertUser(user);
-
         if(result != 0)
             System.out.println("register:success");
         else
@@ -61,7 +60,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public void userModify(UserVO user) {
+    public void userModify(UserVO user) throws Throwable{
         //int result = userDAO.userUpdate(user);
         user.setUserPW(pwEncoder.encode(user.getUserPW()));
         int result = mapper.updateUser(user);
@@ -86,7 +85,7 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public int userRemoveByNo(int no) {
+    public int userRemoveByNo(int no) throws Throwable{
         //int result = userDAO.userDeleteByNo(no);
         int result = mapper.deleteUserByNo(no);
 

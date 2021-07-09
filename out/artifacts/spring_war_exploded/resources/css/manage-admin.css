@@ -154,6 +154,7 @@ body{
 
 .box-view>.box-listup>.box-list>.box-table>.table-list>tbody>tr>td>a{
     text-decoration-line:none;
+    color:blue;
 }
 
 .box-view>.box-listup>.box-list>.box-control{

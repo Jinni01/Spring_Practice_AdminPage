@@ -15,7 +15,11 @@ public class LoggerInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         //System.out.println(request.getRequestURI());
         String logStr = request.getMethod() + " " + request.getRequestURI();
-        log.debug(logStr);
+        String queryStr = request.getQueryString();
+        if(queryStr != null)
+            logStr = logStr + "?" + queryStr;
+        if(!logStr.contains("resources"))
+            log.debug(logStr);
         return super.preHandle(request, response, handler);
     }
 

@@ -76,9 +76,9 @@
               <div class="box-tool">
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
                   <div><a href="${context_path}/user/delete?userNo=${user.userNo}">삭제</a></div>
-                  <div><a href="${context_path}/user/modify-admin?userNo=${user.userNo}&prevUrl=${prevUrl}">수정</a></div>
+                  <div><a href="${context_path}/user/modify-admin?userNo=${user.userNo}">수정</a></div>
                 </sec:authorize>
-                <div><a href="${context_path}/user/manage-admin">확인</a></div>
+                <div><a href="javascript:window.history.back()">확인</a></div>
               </div>
             </div>
           </div>

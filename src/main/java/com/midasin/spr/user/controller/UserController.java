@@ -1,13 +1,14 @@
 package com.midasin.spr.user.controller;
 
-import com.midasin.spr.user.UserVO;
 import com.midasin.spr.pagination.Criteria;
 import com.midasin.spr.pagination.PageMaker;
+import com.midasin.spr.user.UserVO;
 import com.midasin.spr.user.service.UserServiceImpl;
 import com.midasin.spr.util.FileUtil;
 import com.midasin.spr.util.PrevUrl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.*;
+import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/user")
@@ -51,28 +51,26 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public String userRegister(MultipartFile uploadfile, UserVO user, PrevUrl prevUrl, HttpServletRequest request) {
+    public String userRegister(MultipartFile uploadfile, UserVO user, PrevUrl prevUrl, HttpServletRequest request) throws Throwable {
         user.setUserImage(fileUtil.SaveFile(uploadfile, request));
         service.userRegister(user);
         return "redirect:" + prevUrl.getPrevUrl();
     }
 
     @PostMapping(value="/modify")
-    public String userModify(MultipartFile uploadfile, UserVO user, HttpServletRequest request)
-    {
+    public String userModify(MultipartFile uploadfile, UserVO user, HttpServletRequest request) throws Throwable {
         //delete exist prev image
         UserVO u = service.userSearchByNo(user.getUserNo());
         String prevImageFileName = u.getUserImage();
         fileUtil.RemoveFile(request, prevImageFileName);
         //insert new image
         user.setUserImage(fileUtil.SaveFile(uploadfile, request));
-
         service.userModify(user);
         return "redirect:/user/info?userNo=" + Integer.toString(user.getUserNo());
     }
 
     @GetMapping(value = "/delete")
-    public String usetDelete(UserVO user_no, HttpServletRequest request) {
+    public String usetDelete(UserVO user_no, HttpServletRequest request) throws Throwable {
         UserVO user = service.userSearchByNo(user_no.getUserNo());
         fileUtil.RemoveFile(request, user.getUserImage());
         service.userRemoveByNo(user_no.getUserNo());
@@ -143,7 +141,7 @@ public class UserController {
     }
 
     @GetMapping(value = "modify-admin")
-    public String userModifyPage(UserVO user_no, PrevUrl prevUrl, Model model, HttpServletRequest request, HttpSession session){
+    public String userModifyPage(UserVO user_no, Model model){
         /*if(session != null) {
             User user = (User) session.getAttribute("user");
             if(user == null){
@@ -171,7 +169,7 @@ public class UserController {
             user.setUserSuper(true);
             user.setUserImage("춘식이.png");
 
-            service.userRegister(user);
+            //service.userRegister(user);
         }
 
         return "redirect:/login";

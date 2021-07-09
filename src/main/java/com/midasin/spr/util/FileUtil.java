@@ -11,6 +11,7 @@ import java.util.UUID;
 public class FileUtil {
 
     public String SaveFile(MultipartFile uploadfile, HttpServletRequest request){
+        if(uploadfile.isEmpty()) return "";
 
         UUID uuid = UUID.randomUUID();
         String saveName = uuid + "_" + uploadfile.getOriginalFilename();
