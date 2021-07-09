@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class FileUtil {
@@ -39,9 +40,11 @@ public class FileUtil {
         BufferedOutputStream out = null;
         InputStream in = null;
 
+        String encodeFileName = new String(targetFileName.getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+
         try {
-            response.setContentType("image/*");
-            response.setHeader("Content-Disposition", "inline;filename="+targetFileName);
+            response.setContentType("image/*; charset=UTF-8");
+            response.setHeader("Content-Disposition", "inline;filename="+encodeFileName);
             File file = new File(filePath);
             if(file.exists()) {
                 in = new FileInputStream(file);
